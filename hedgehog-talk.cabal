@@ -23,11 +23,13 @@ extra-source-files:
 library
   exposed-modules:
     Basic
+    Class
     Exception
     QuickCheck
     Roundtrip
   build-depends:
     , base >= 4.10 && < 4.13
+    , containers
     , hedgehog
     , hedgehog-classes
     , hedgehog-quickcheck

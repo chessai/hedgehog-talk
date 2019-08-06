@@ -1,0 +1,51 @@
+\documentclass[aspectratio=43]{beamer}
+\usepackage[english]{babel}
+
+\input{chapters/preamble}
+\title{Property Testing With Hedgehog}
+\subtitle{Eating Your Bugs}
+\author[]{Daniel Cartwright}
+\institute[Atlanta Functional Programming]{
+    Atlanta Functional Programming
+}
+\date{August 06, 2019}
+\logo{\includegraphics[width= 0.2\textwidth]{images/hedgehog-logo.png}}
+
+\begin{document}
+    
+    \frame{\titlepage}
+    
+    \begin{frame}{Summary}
+        \tableofcontents
+    \end{frame}
+
+    \input{chapters/what_is_property_testing.tex}
+    
+    \input{chapters/approaches_to_property_testing.tex}
+    
+    \input{chapters/code_examples.tex}
+   
+    %\input{chapters/state_machine_testing.tex}
+   
+    %\input{chapters/examples_of_state_machine_testing.tex}
+    
+    \section*{Acknowledgments}
+        \begin{frame}{Acknowledgments}
+            \begin{itemize}
+                \item Thanks to the Atlanta Functional Programming Group for letting me give this talk.
+                \item Thanks to Jacob Stanley, Tim Humphries, and the many other Hedgehog contributors
+            \end{itemize}
+        \end{frame}
+    
+    \section*{References}
+        \begin{frame}{References}
+            \nocite{FPComplete} \nocite{Humphries}
+            \printbibliography
+        \end{frame}
+
+    \begin{frame}{}
+        \centering
+            \Huge\bfseries
+        \textcolor{orange}{Questions?}
+    \end{frame}
+\end{document}

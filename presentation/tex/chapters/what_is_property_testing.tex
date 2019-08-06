@@ -1,0 +1,115 @@
+\section{What is Property Testing?}
+    
+    \frame{\sectionpage}
+   
+   
+    \begin{frame}[fragile]{The Problems With Testing}
+        \begin{itemize}
+            \item How expensive is breakage?
+            \item Tooling (PL, build system, etc.)
+            \item Types of testing, verification
+            \item Unit Tests are Extremely common
+        \end{itemize}
+        \begin{minted}[linenos,fontsize=\footnotesize]{haskell}
+        -- 'hspec' unit test example
+        myAssertion :: Assertion
+        myAssertion = myFunction exampleInput `shouldBe` expectedOutput
+        \end{minted}
+    \end{frame}
+
+   \begin{frame}[fragile]{The Problems With Testing (Cont'd)}
+       \begin{definition}{Unit Test}
+          A test that checks whether the output of a function, for a single
+          example, is equal to the expected output.
+       \end{definition}
+       
+       But, there are problems!
+       
+       \begin{itemize}
+           \item Coverage Problem: Coverage of all code paths
+           \item Developer Cost: Costly w.r.t developer time
+           \item Unenjoyable to write (bad for morale)
+       \end{itemize}
+   \end{frame}
+   
+    \begin{frame}{Property Testing As A Solution To The Coverage Problem}
+        Property testing:
+            \begin{itemize}
+                \item Parametric in its inputs
+                \item Based on declarative \textit{properties}, rather than manually-constructed inputs
+                \item The inputs are generated, rather than supplied by humans
+            \end{itemize}
+        
+        How do you generate these inputs? Depends:
+            \begin{itemize}
+                \item Exhaustive property tests
+                \item Randomised property tests
+                \item Exhaustive, specialised property tests
+                \item Randomised, specialised property tests
+            \end{itemize}
+    \end{frame}
+
+    \begin{frame}[fragile]{Example}
+        \begin{minted}[linenos,fontsize=\footnotesize]{haskell}
+        prop_reverse :: [Char] -> Bool
+        prop_reverse str = reverse (reverse str) == str
+        \end{minted}       
+    \end{frame}
+
+    \begin{frame}[fragile]{Generators}
+        \begin{itemize}
+            \item Randomised generators are a way to describe how you should generate some input to a property test
+            \item Appropriate generators can be the difference between finding bugs, and not finding bugs
+            \item Not all types are easy to generate (e.g.: Word8 vs String)
+            \item Generators can often be constructed using combinators, allowing smarter construction of generators (e.g. filtering,sizing)
+        \end{itemize} 
+        
+        Example where a bad generator could fail:
+        \begin{minted}[linenos,fontsize=\footnotesize]{haskell}
+        prop_isSmall :: [a] -> Bool
+        prop_isSmall ls = length ls < 100
+        \end{minted}
+    \end{frame}
+   
+    \begin{frame}[fragile]{Shrinking}
+        \begin{itemize}
+            \item Property test failures result in counterexamples can be large
+            \item This can make reasoning about the failure harder
+            \item What if we could shrink counterexamples to manageable sizes?
+        \end{itemize} 
+        
+        \begin{minted}[linenos,fontsize=\footnotesize]{haskell}
+        prop_allLower :: [Char] -> Bool
+        prop_allLower str = all isLower (map toLower str)
+        
+        -- Counterexample
+        -- "As5Enu3au04"
+        
+        -- Shrunken counterexample
+        -- "1"
+        
+        -- λ toLower '1'
+        -- '1'
+        \end{minted}
+        
+        Note that the shrunk counterexample "1" is not necessarily part of the
+        original counterexample.
+    \end{frame}
+    
+    \begin{frame}[fragile]{Shrinking With Invariants}
+        \begin{itemize}
+            \item Shrunk values must have been able to come from the generator that generated the unshrunk value
+        \end{itemize}
+        
+        Consider:
+        
+        \(\forall n. (n > 6) \Rightarrow (n > 5 \land odd(n)) \)
+       
+        If shrinking does not obey the invariants of the generator:
+        
+        \begin{minted}[fontsize=\footnotesize]{haskell}
+        -- "Failed: the following number larger than six does not pass the property test: 0" 
+        \end{minted}
+    \end{frame}
+
+

@@ -1,0 +1,39 @@
+cabal-version: 2.2
+name:
+  hedgehog-talk
+version:
+  0.1
+synopsis:
+  hedgehog talk project
+homepage:
+  https://github.com/chessai/hedgehog-talk
+license:
+  BSD-3-Clause
+license-file:
+  LICENSE
+author:
+  chessai
+maintainer:
+  chessai <chessai1996@gmail.com>
+category:
+  Testing
+extra-source-files:
+  CHANGELOG.md
+
+library
+  exposed-modules:
+    Basic
+    Exception
+    QuickCheck
+    Roundtrip
+  build-depends:
+    , base >= 4.10 && < 4.13
+    , hedgehog
+    , hedgehog-classes
+    , hedgehog-quickcheck
+    , parsec
+    , text
+  hs-source-dirs:
+    src
+  default-language:
+    Haskell2010

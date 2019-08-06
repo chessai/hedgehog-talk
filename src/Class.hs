@@ -55,5 +55,15 @@ tests = lawsCheckMany
   , ("Either String Int", [eqLaws genEither0])
   , ("Either String", [functorLaws genEither1, applicativeLaws genEither1, traversableLaws genEither1])
   , ("Either", [bifunctorLaws genEither])
+  -- , ("BadList", [foldableLaws genBadList])
   ]
 
+newtype BadList a = BadList [a]
+  deriving (Eq, Show)
+
+instance Foldable BadList where
+  foldMap f (BadList xs) = foldMap f xs
+  foldl' f z0 (BadList xs) = foldl f z0 xs
+
+genBadList :: Gen a -> Gen (BadList a)
+genBadList genA = BadList <$> Gen.list (Range.linear 0 100) genA

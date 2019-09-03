@@ -33,7 +33,7 @@ prop_assert = property $ do
 prop_property_exception :: Property
 prop_property_exception = property $ do
   xs <- forAll $ Gen.list (Range.linear 0 100) (Gen.int Range.constantBounded)
-  maximum xs === List.maximum xs
+  myMaximum xs === List.maximum xs
 
 tests :: IO Bool
 tests = checkSequential $$(discover)

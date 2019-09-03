@@ -15,6 +15,8 @@ import Hedgehog
 import qualified Hedgehog.Gen as Gen
 import qualified Hedgehog.Range as Range
 
+--foo :: MonadGen m => m ()
+
 prop_success :: Property
 prop_success = property success
 

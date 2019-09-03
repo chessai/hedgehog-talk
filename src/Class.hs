@@ -56,6 +56,7 @@ tests = lawsCheckMany
   , ("Either String", [functorLaws genEither1, applicativeLaws genEither1, traversableLaws genEither1])
   , ("Either", [bifunctorLaws genEither])
   -- , ("BadList", [foldableLaws genBadList])
+  , ("BadEq", [eqLaws genBadEq])
   ]
 
 newtype BadList a = BadList [a]
@@ -67,3 +68,17 @@ instance Foldable BadList where
 
 genBadList :: Gen a -> Gen (BadList a)
 genBadList genA = BadList <$> Gen.list (Range.linear 0 100) genA
+
+data BadEq = E1 | E2 | E3
+  deriving (Show)
+
+instance Eq BadEq where
+  _ == _ = False
+
+genBadEq :: Gen BadEq
+genBadEq = Gen.frequency
+  [ (1, pure E1)
+  , (1, pure E2)
+  , (1, pure E3)
+  ]
+

@@ -27,9 +27,12 @@ library
     Exception
     QuickCheck
     Roundtrip
+    StateMachine
+    StateMachinePar
   build-depends:
     , base >= 4.10 && < 4.13
     , containers
+    , hashtables
     , hedgehog
     , hedgehog-classes
     , hedgehog-quickcheck
